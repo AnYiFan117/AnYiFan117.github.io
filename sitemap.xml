@@ -2,43 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://example.com/categories/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <loc>https://example.com/post/short-review-of-ustiya/</loc>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/categories/fuck/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <loc>https://example.com/categories/</loc>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/fuck/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/galgame/</loc>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
     <loc>https://example.com/post/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/p/finally/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <loc>https://example.com/categories/%E6%9D%82%E8%B0%88/</loc>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/%E6%9D%82%E8%B0%88/</loc>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
+  </url><url>
+    <loc>https://example.com/post/finally/</loc>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
     <loc>https://example.com/page/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
     <loc>https://example.com/archives/</loc>
     <lastmod>2025-10-26T23:52:08+08:00</lastmod>
   </url><url>
     <loc>https://example.com/</loc>
-    <lastmod>2025-10-26T23:12:58+08:00</lastmod>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/%E5%85%B3%E4%BA%8E%E6%88%91/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <loc>https://example.com/aboutme/</loc>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/%E6%90%9C%E7%B4%A2/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <loc>https://example.com/search/</loc>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/%E4%B8%80%E4%BA%9B%E7%A5%9E%E7%A7%98%E9%93%BE%E6%8E%A5/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
-  </url><url>
-    <loc>https://example.com/categories/%E6%9D%82%E8%B0%88/</loc>
-    <lastmod>2025-10-26T23:52:08+08:00</lastmod>
+    <loc>https://example.com/links/</loc>
+    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url>
 </urlset>

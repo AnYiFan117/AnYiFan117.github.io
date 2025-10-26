@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Posts on AnYiFan</title>
-        <link>https://example.com/post/</link>
-        <description>Recent content in Posts on AnYiFan</description>
+        <title>杂谈 on AnYiFan</title>
+        <link>https://example.com/tags/%E6%9D%82%E8%B0%88/</link>
+        <description>Recent content in 杂谈 on AnYiFan</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnYiFan</copyright>
-        <lastBuildDate>Mon, 27 Oct 2025 00:58:58 +0800</lastBuildDate><atom:link href="https://example.com/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 27 Oct 2025 00:58:58 +0800</lastBuildDate><atom:link href="https://example.com/tags/%E6%9D%82%E8%B0%88/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>《秽翼的尤斯蒂娅》简评</title>
         <link>https://example.com/post/short-review-of-ustiya/</link>
         <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
@@ -68,17 +68,6 @@
 &lt;h2 id=&#34;总结&#34;&gt;总结
 &lt;/h2&gt;&lt;p&gt;《秽翼的尤斯蒂娅》可以说是制作组对基督教的一个很好的宣传或者说致敬。对于各位玩家来说，如果大家能够在游玩完游戏之后，愿意去了解基督教相关故事（了解即可，没有别的意思），它是一部能为你带来很多遐想的作品。而我本人游玩之后，也是希望其他玩家能够带着基督教的背景设定去重新思考故事，可能会给你带来不一样的体验。&lt;/p&gt;
 </description>
-        </item>
-        <item>
-        <title>终于配好了</title>
-        <link>https://example.com/post/finally/</link>
-        <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
-        
-        <guid>https://example.com/post/finally/</guid>
-        <description>&lt;h1 id=&#34;终于配好了&#34;&gt;终于配好了
-&lt;/h1&gt;&lt;p&gt;终于把这个傻逼stack主题配好了，真是傻逼，真是傻逼。&lt;/p&gt;
-&lt;h1 id=&#34;改天了解一下hugo&#34;&gt;改天了解一下hugo
-&lt;/h1&gt;</description>
         </item>
         
     </channel>
