@@ -7,7 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnYiFan</copyright>
-        <lastBuildDate>Mon, 27 Oct 2025 00:58:58 +0800</lastBuildDate><atom:link href="https://example.com/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 27 Oct 2025 21:22:13 +0800</lastBuildDate><atom:link href="https://example.com/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>归档</title>
         <link>https://example.com/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
@@ -21,7 +21,16 @@
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
         <guid>https://example.com/aboutme/</guid>
-        <description>&lt;p&gt;这个人很神秘，什么都没有写&lt;/p&gt;
+        <description>&lt;p&gt;来了来了。其实我本来是不想写这个博客的。
+只是最近入手了macbook air，逼着自己租了一个阿里云的服务器，想要开发点什么来丰富自己的建立。
+结果到头来，第一个想到的就是写博客了。&lt;/p&gt;
+&lt;p&gt;之前看到别人自己的博客站，觉得很厉害。
+现在真正自己维护起来了，觉得其实最难的不是建立，而是能够持续的写文章，写出自己想要的好文章。&lt;/p&gt;
+&lt;p&gt;相比其他的技术大佬而言，我其实是更希望写一些生活中的随笔。
+就像我在初中的时候做过的一样，当时我曾经连续几个月在qq空间里写日志当日记。
+当然，这个博客站并不会最终演变成我的日记本。
+在努力地更新一些自己的踩坑/技术报告之余，我还是更希望多写一点小随笔，来记录一下生活。
+正所谓，人要有一个输出型爱好，也许写博客对我来说，就是一个能够让我持续输出的爱好吧。&lt;/p&gt;
 </description>
         </item>
         <item>
