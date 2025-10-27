@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Pages on AnYiFan</title>
-        <link>https://example.com/page/</link>
+        <link>https://anyifan117.github.io/page/</link>
         <description>Recent content in Pages on AnYiFan</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnYiFan</copyright>
-        <lastBuildDate>Mon, 27 Oct 2025 21:22:13 +0800</lastBuildDate><atom:link href="https://example.com/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 27 Oct 2025 21:22:13 +0800</lastBuildDate><atom:link href="https://anyifan117.github.io/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>归档</title>
-        <link>https://example.com/archives/</link>
+        <link>https://anyifan117.github.io/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/archives/</guid>
+        <guid>https://anyifan117.github.io/archives/</guid>
         <description></description>
         </item>
         <item>
         <title>关于我</title>
-        <link>https://example.com/aboutme/</link>
+        <link>https://anyifan117.github.io/aboutme/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/aboutme/</guid>
+        <guid>https://anyifan117.github.io/aboutme/</guid>
         <description>&lt;p&gt;来了来了。其实我本来是不想写这个博客的。
 只是最近入手了macbook air，逼着自己租了一个阿里云的服务器，想要开发点什么来丰富自己的建立。
 结果到头来，第一个想到的就是写博客了。&lt;/p&gt;
@@ -35,18 +35,18 @@
         </item>
         <item>
         <title>搜索</title>
-        <link>https://example.com/search/</link>
+        <link>https://anyifan117.github.io/search/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/search/</guid>
+        <guid>https://anyifan117.github.io/search/</guid>
         <description></description>
         </item>
         <item>
         <title>一些神秘链接</title>
-        <link>https://example.com/links/</link>
+        <link>https://anyifan117.github.io/links/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/links/</guid>
+        <guid>https://anyifan117.github.io/links/</guid>
         <description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
 &lt;p&gt;This page&amp;rsquo;s frontmatter:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
