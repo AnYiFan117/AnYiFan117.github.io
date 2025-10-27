@@ -3,43 +3,46 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://example.com/categories/</loc>
-    <lastmod>2025-10-27T09:50:44+08:00</lastmod>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
+  </url><url>
+    <loc>https://example.com/tags/llm/</loc>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/llms/</loc>
-    <lastmod>2025-10-27T09:50:44+08:00</lastmod>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
     <loc>https://example.com/post/</loc>
-    <lastmod>2025-10-27T09:50:44+08:00</lastmod>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
+  </url><url>
+    <loc>https://example.com/post/skysense%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/</loc>
-    <lastmod>2025-10-27T09:50:44+08:00</lastmod>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/transformer/</loc>
-    <lastmod>2025-10-27T09:50:44+08:00</lastmod>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
     <loc>https://example.com/post/transformer%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2025-10-27T09:50:44+08:00</lastmod>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2025-10-27T09:50:44+08:00</lastmod>
+    <loc>https://example.com/tags/%E9%81%A5%E6%84%9F%E5%9F%BA%E7%A1%80%E5%A4%A7%E6%A8%A1%E5%9E%8B/</loc>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/post/short-review-of-ustiya/</loc>
-    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
+    <loc>https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/</loc>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/fuck/</loc>
-    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/galgame/</loc>
-    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
-    <loc>https://example.com/categories/%E6%9D%82%E8%B0%88/</loc>
-    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
+    <loc>https://example.com/post/hugo-stack%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</loc>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
     <loc>https://example.com/tags/%E6%9D%82%E8%B0%88/</loc>
-    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
-  </url><url>
-    <loc>https://example.com/post/finally/</loc>
-    <lastmod>2025-10-27T00:58:58+08:00</lastmod>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url><url>
     <loc>https://example.com/page/</loc>
     <lastmod>2025-10-27T00:58:58+08:00</lastmod>
@@ -53,10 +56,22 @@
     <loc>https://example.com/aboutme/</loc>
     <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
+    <loc>https://example.com/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/</loc>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
+  </url><url>
+    <loc>https://example.com/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
+  </url><url>
     <loc>https://example.com/search/</loc>
     <lastmod>2025-10-27T00:58:58+08:00</lastmod>
   </url><url>
     <loc>https://example.com/links/</loc>
     <lastmod>2025-10-27T00:58:58+08:00</lastmod>
+  </url><url>
+    <loc>https://example.com/categories/%E6%B8%B8%E8%AE%B0/</loc>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
+  </url><url>
+    <loc>https://example.com/categories/%E6%9D%82%E8%B0%88/</loc>
+    <lastmod>2025-10-27T11:23:02+08:00</lastmod>
   </url>
 </urlset>

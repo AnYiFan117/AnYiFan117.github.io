@@ -7,7 +7,15 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnYiFan</copyright>
-        <lastBuildDate>Mon, 27 Oct 2025 09:50:44 +0800</lastBuildDate><atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 27 Oct 2025 11:23:02 +0800</lastBuildDate><atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Llm</title>
+        <link>https://example.com/tags/llm/</link>
+        <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/tags/llm/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Llms</title>
         <link>https://example.com/tags/llms/</link>
         <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
@@ -21,6 +29,14 @@
         <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
         
         <guid>https://example.com/tags/transformer/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>遥感基础大模型</title>
+        <link>https://example.com/tags/%E9%81%A5%E6%84%9F%E5%9F%BA%E7%A1%80%E5%A4%A7%E6%A8%A1%E5%9E%8B/</link>
+        <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/tags/%E9%81%A5%E6%84%9F%E5%9F%BA%E7%A1%80%E5%A4%A7%E6%A8%A1%E5%9E%8B/</guid>
         <description></description>
         </item>
         <item>

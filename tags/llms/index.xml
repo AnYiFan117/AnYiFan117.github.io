@@ -7,13 +7,13 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnYiFan</copyright>
-        <lastBuildDate>Mon, 27 Oct 2025 09:50:44 +0800</lastBuildDate><atom:link href="https://example.com/tags/llms/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 27 Oct 2025 11:23:02 +0800</lastBuildDate><atom:link href="https://example.com/tags/llms/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Transformer笔记</title>
         <link>https://example.com/post/transformer%E7%AC%94%E8%AE%B0/</link>
         <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
         
         <guid>https://example.com/post/transformer%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;h1 id=&#34;transformer学习笔记&#34;&gt;Transformer学习笔记
+        <description>&lt;img src="https://example.com/post/transformer%E7%AC%94%E8%AE%B0/transformer.png" alt="Featured image of post Transformer笔记" /&gt;&lt;h1 id=&#34;transformer学习笔记&#34;&gt;Transformer学习笔记
 &lt;/h1&gt;&lt;p&gt;本篇笔记记录了笔者在学习transformer架构时的一些心得体会。笔者的学习资料来自&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/340149804&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;科技猛兽&lt;/a&gt;的博客。也请大家去阅读原文，原文的介绍更加详细。本文在原文的理解基础上，加入了更详细的代码解读。&lt;/p&gt;
 &lt;p&gt;transformer整体结构的核心点有以下几点：&lt;/p&gt;

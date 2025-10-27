@@ -7,13 +7,87 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnYiFan</copyright>
-        <lastBuildDate>Mon, 27 Oct 2025 09:50:44 +0800</lastBuildDate><atom:link href="https://example.com/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 27 Oct 2025 11:23:02 +0800</lastBuildDate><atom:link href="https://example.com/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Skysense笔记</title>
+        <link>https://example.com/post/skysense%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/skysense%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;img src="https://example.com/post/skysense%E7%AC%94%E8%AE%B0/skysense.png" alt="Featured image of post Skysense笔记" /&gt;&lt;h1 id=&#34;skysense&#34;&gt;Skysense
+&lt;/h1&gt;&lt;p&gt;Skysense简单来说，是一个能够处理多模态，在遥感下游任务上表现良好的基模。&lt;/p&gt;
+&lt;p&gt;他的核心架构如下：
+&lt;img src=&#34;https://example.com/post/skysense%E7%AC%94%E8%AE%B0/arch.png&#34;
+	width=&#34;1059&#34;
+	height=&#34;922&#34;
+	srcset=&#34;https://example.com/post/skysense%E7%AC%94%E8%AE%B0/arch_hu_a40be59680fa9ae.png 480w, https://example.com/post/skysense%E7%AC%94%E8%AE%B0/arch_hu_20eb7eb3b7fb63a5.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Skysense架构&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;114&#34;
+		data-flex-basis=&#34;275px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;整体结构较为简单，主要分为以下几个部分：&lt;/p&gt;
+&lt;h2 id=&#34;因子化多模态时空编码器&#34;&gt;因子化多模态时空编码器
+&lt;/h2&gt;&lt;p&gt;说的很玄乎，其实就是编码前对向量的处理&lt;/p&gt;
+&lt;p&gt;主要做法是，分别利用3个模态的encoder对可见光，多光谱和SAR图像进行编码，然后concat起来，加上时间信息向量（和传统的位置向量有点相似），在头部concat一个cls向量，然后送入encoder得到最终包含时空信息的编码 $F^{mm}_{fus}$。&lt;/p&gt;
+&lt;p&gt;得到这个 $F^{mm}_{fus}$之后，结合在预训练中得到的一个全球地理特征表（图右侧），进行一个QKV计算，Q是 $F^{mm}_{fus}$，KV是特征表，这样进行与地理特征表中的特征有关的向量生成，再和 $F^{mm}_{fus}$ concat得到最后的 $F_{fus}$。&lt;/p&gt;
+&lt;h2 id=&#34;预训练时的设计&#34;&gt;预训练时的设计
+&lt;/h2&gt;&lt;p&gt;首先他们采用的是student-teacher的架构，来最大程度避免RSI的负样本问题&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;多粒度对比学习&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这个多粒度就是&lt;strong&gt;像素、目标、图像&lt;/strong&gt;这三个粒度&lt;/p&gt;
+&lt;p&gt;分别计算Loss之后加起来&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;多模态对齐&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;用了一个multi-modal contrastive loss，来把同一位置的不同模态图片信息对齐&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;非监督地理信息原型学习&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这个貌似是创新点。&lt;/p&gt;
+&lt;p&gt;就是对地球进行了建模，以经度纬度为单位，在小格子里建立多层信息，然后利用$F^{mm}_{fus}$这个语义丰富的向量来训练这个格子，最终让格子里的每一层学习到对应的地理信息，用于辅助下游任务。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://example.com/post/skysense%E7%AC%94%E8%AE%B0/geo.png&#34;
+	width=&#34;999&#34;
+	height=&#34;541&#34;
+	srcset=&#34;https://example.com/post/skysense%E7%AC%94%E8%AE%B0/geo_hu_4636ba2a7b6d6c39.png 480w, https://example.com/post/skysense%E7%AC%94%E8%AE%B0/geo_hu_6823bc966a7eb2c3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;地理信息原型学习&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;184&#34;
+		data-flex-basis=&#34;443px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;实验设置&#34;&gt;实验设置
+&lt;/h2&gt;&lt;p&gt;他们的主要对比对象有如下模型：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://example.com/post/skysense%E7%AC%94%E8%AE%B0/exp.png&#34;
+	width=&#34;777&#34;
+	height=&#34;633&#34;
+	srcset=&#34;https://example.com/post/skysense%E7%AC%94%E8%AE%B0/exp_hu_c674fae3d8326e0d.png 480w, https://example.com/post/skysense%E7%AC%94%E8%AE%B0/exp_hu_8167b499a4d737ef.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;对比模型&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;122&#34;
+		data-flex-basis=&#34;294px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;但是在文中没有写清楚选择标准，同时有一些数据是空缺的，怀疑直接从别人的论文里抄的数据。&lt;/p&gt;
+&lt;p&gt;这里我就想吐槽一下这些AI的文章。他们的实验设置讲的都是稀烂。没有工具的选择标准，没有一个对比的基线。&lt;/p&gt;
+&lt;p&gt;基本上，每一个任务里的对比模型都不尽相同，而文章中也没有解释，为什么在前一节能够对比的模型，到了这一节却突然消失了。我大发慈悲地猜测，可能是因为每个模型能做到的任务不同，所以可能对于分类任务能够对比，但是分割任务不能对比。而这种信息不应该让读者去猜，而是应该直接写出来。&lt;/p&gt;
+&lt;p&gt;这要是高教授来审稿，这里的实验部分肯定是要重写的。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Transformer笔记</title>
         <link>https://example.com/post/transformer%E7%AC%94%E8%AE%B0/</link>
         <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
         
         <guid>https://example.com/post/transformer%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;h1 id=&#34;transformer学习笔记&#34;&gt;Transformer学习笔记
+        <description>&lt;img src="https://example.com/post/transformer%E7%AC%94%E8%AE%B0/transformer.png" alt="Featured image of post Transformer笔记" /&gt;&lt;h1 id=&#34;transformer学习笔记&#34;&gt;Transformer学习笔记
 &lt;/h1&gt;&lt;p&gt;本篇笔记记录了笔者在学习transformer架构时的一些心得体会。笔者的学习资料来自&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/340149804&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;科技猛兽&lt;/a&gt;的博客。也请大家去阅读原文，原文的介绍更加详细。本文在原文的理解基础上，加入了更详细的代码解读。&lt;/p&gt;
 &lt;p&gt;transformer整体结构的核心点有以下几点：&lt;/p&gt;
@@ -624,11 +698,11 @@ $$&lt;p&gt;这个函数有一个很重要的性质就是他的可以线性变化
         </item>
         <item>
         <title>《秽翼的尤斯蒂娅》简评</title>
-        <link>https://example.com/post/short-review-of-ustiya/</link>
+        <link>https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/</link>
         <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/post/short-review-of-ustiya/</guid>
-        <description>&lt;img src="https://example.com/post/short-review-of-ustiya/home.png" alt="Featured image of post 《秽翼的尤斯蒂娅》简评" /&gt;&lt;h1 id=&#34;秽翼的尤斯蒂娅简评&#34;&gt;《秽翼的尤斯蒂娅》简评
+        <guid>https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/</guid>
+        <description>&lt;img src="https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/home.png" alt="Featured image of post 《秽翼的尤斯蒂娅》简评" /&gt;&lt;h1 id=&#34;秽翼的尤斯蒂娅简评&#34;&gt;《秽翼的尤斯蒂娅》简评
 &lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;原链接：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/632816230&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;知乎回答&lt;/a&gt;&lt;/p&gt;
@@ -646,10 +720,10 @@ $$&lt;p&gt;这个函数有一个很重要的性质就是他的可以线性变化
 &lt;p&gt;但是就主人公凯伊姆的心理变化，我认为是描写的非常清晰的。随着凯伊姆的“阅历”增加，他的心理也在发生变化。有的人认为这是人物塑造得失败，尤其在高潮部分主人公的反复转变让许多玩家觉得无法理解他在想什么。其实在结尾，制作组给出了解释，那就是从故事开始就一直困扰凯伊姆的那句 “存在的意义” 。&lt;/p&gt;
 &lt;p&gt;凯伊姆因为大崩坏落入牢狱，受到牢狱的环境影响，认为自己就是牢狱的人。后来随着故事发展，他的活动范围在不断上升，而他因为 “逃避选择” ，所以自然而然把身边的环境和自己进行了绑定。这就是玩家在游玩中体会到的，“这个人怎么说话越来越像贵族一样” 的感觉，也就是主人公前后立场不一样的体现。&lt;/p&gt;
 &lt;p&gt;凯伊姆缺乏对人生的明确目标和自身存在意义的思考，所以受到身边的环境影响，而改变了自己的思考方式。理解了这一点，就很好理解他内心的纠结和最终做出的选择了。虽然说他最终最初的选择在我看来有一点儿女情长，但是你就说选没选嘛）&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://example.com/post/short-review-of-ustiya/man.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/man.png&#34;
 	width=&#34;762&#34;
 	height=&#34;444&#34;
-	srcset=&#34;https://example.com/post/short-review-of-ustiya/man_hu_bdc3653ab34d4b23.png 480w, https://example.com/post/short-review-of-ustiya/man_hu_6e8b7abaef45406b.png 1024w&#34;
+	srcset=&#34;https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/man_hu_bdc3653ab34d4b23.png 480w, https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/man_hu_6e8b7abaef45406b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;和卫宫切嗣一样的选择呢&#34;
@@ -662,10 +736,10 @@ $$&lt;p&gt;这个函数有一个很重要的性质就是他的可以线性变化
 &gt;&lt;/p&gt;
 &lt;p&gt;反观鲁基乌斯，在我游玩的时候，我感觉这个人就是卫宫切嗣的写照。在这种带有明显的功利主义的价值观的影响下，他做出了最符合人物设定的抉择。虽然这可能让玩家对他产生极大的厌恶，但是我却很难对他产生讨厌，因为他确实是向着自己坚信的存在意义不断前进的。&lt;/p&gt;
 &lt;h2 id=&#34;关于小动物&#34;&gt;关于小动物
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://example.com/post/short-review-of-ustiya/angle.png&#34;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/angle.png&#34;
 	width=&#34;865&#34;
 	height=&#34;487&#34;
-	srcset=&#34;https://example.com/post/short-review-of-ustiya/angle_hu_996cd26ad456208f.png 480w, https://example.com/post/short-review-of-ustiya/angle_hu_877d2286df53eeed.png 1024w&#34;
+	srcset=&#34;https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/angle_hu_996cd26ad456208f.png 480w, https://example.com/post/%E7%A7%BD%E7%BF%BC%E7%9A%84%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E7%AE%80%E8%AF%84/angle_hu_877d2286df53eeed.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;像不像伊卡洛斯）&#34;
@@ -685,11 +759,11 @@ $$&lt;p&gt;这个函数有一个很重要的性质就是他的可以线性变化
 </description>
         </item>
         <item>
-        <title>终于配好了</title>
-        <link>https://example.com/post/finally/</link>
+        <title>Hugo&#43;stack配置踩坑</title>
+        <link>https://example.com/post/hugo-stack%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</link>
         <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/post/finally/</guid>
+        <guid>https://example.com/post/hugo-stack%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</guid>
         <description>&lt;h1 id=&#34;终于配好了&#34;&gt;终于配好了
 &lt;/h1&gt;&lt;p&gt;终于把这个傻逼stack主题配好了，真是傻逼，真是傻逼。&lt;/p&gt;
 &lt;h1 id=&#34;改天了解一下hugo&#34;&gt;改天了解一下hugo
