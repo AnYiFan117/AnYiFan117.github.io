@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Transformer学习笔记，包含代码解读">
+<title>Transformer笔记</title>
+
+<link rel='canonical' href='https://example.com/post/transformer%E7%AC%94%E8%AE%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Transformer笔记">
+<meta property='og:description' content="Transformer学习笔记，包含代码解读">
+<meta property='og:url' content='https://example.com/post/transformer%E7%AC%94%E8%AE%B0/'>
+<meta property='og:site_name' content='AnYiFan'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Transformer' /><meta property='article:tag' content='llms' /><meta property='article:published_time' content='2025-10-27T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-10-27T09:50:44&#43;08:00'/>
+<meta name="twitter:title" content="Transformer笔记">
+<meta name="twitter:description" content="Transformer学习笔记，包含代码解读">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_30cd24c3c55567b0.png" width="300"
+                            height="333" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😊</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">AnYiFan</a></h1>
+            <h2 class="site-description">一个又菜又爱玩的新人程序员</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/AnYiFan117'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/aboutme/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>一些神秘链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#transformer学习笔记">Transformer学习笔记</a></li>
+    <li><a href="#self-attention">Self-Attention</a>
+      <ol>
+        <li><a href="#代码实现">代码实现</a></li>
+      </ol>
+    </li>
+    <li><a href="#多头自注意力">多头自注意力</a>
+      <ol>
+        <li><a href="#代码实现-1">代码实现</a></li>
+      </ol>
+    </li>
+    <li><a href="#位置编码">位置编码</a>
+      <ol>
+        <li><a href="#代码实现-2">代码实现</a></li>
+      </ol>
+    </li>
+    <li><a href="#transformer整体拼装">Transformer整体拼装</a>
+      <ol>
+        <li><a href="#encoder层">encoder层</a>
+          <ol>
+            <li><a href="#inputembedding">InputEmbedding</a></li>
+            <li><a href="#positionalencoding">PositionalEncoding</a></li>
+            <li><a href="#encoderlayer">EncoderLayer</a></li>
+            <li><a href="#encoder整体回顾">encoder整体回顾</a></li>
+          </ol>
+        </li>
+        <li><a href="#decoder层">decoder层</a>
+          <ol>
+            <li><a href="#decoderlayer">DecoderLayer</a></li>
+            <li><a href="#decoder整体结构">decoder整体结构</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/" >
+                论文学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/transformer%E7%AC%94%E8%AE%B0/">Transformer笔记</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Transformer学习笔记，包含代码解读
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Oct 27, 2025</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="transformer学习笔记">Transformer学习笔记
+</h1><p>本篇笔记记录了笔者在学习transformer架构时的一些心得体会。笔者的学习资料来自<a class="link" href="https://zhuanlan.zhihu.com/p/340149804"  target="_blank" rel="noopener"
+    >科技猛兽</a>的博客。也请大家去阅读原文，原文的介绍更加详细。本文在原文的理解基础上，加入了更详细的代码解读。</p>
+<p>transformer整体结构的核心点有以下几点：</p>
+<ul>
+<li>Self-Attention机制</li>
+<li>多头注意力</li>
+<li>位置编码</li>
+</ul>
+<h1 id="self-attention">Self-Attention
+</h1><p>注意力是transformer的核心，他的目标是对输入序列进行全局关注，并最终能够并行计算。</p>
+<blockquote>
+<p>RNN只顺序计算，并且只能考虑之前序列的输入，不能考虑之后的。
+CNN只能考虑一个范围内的输入，内容更加有限</p>
+</blockquote>
+<p>Attention主要由三个部分计算得到：Q(query), K(key), V(value)</p>
+<p>就像从字典里查询单词的过程一样，对于一个Q，我们取寻找和他相似的K，然后获取K对应的结果V。</p>
+<p>整体的流程如下图：</p>
+<p><img src="/post/transformer%E7%AC%94%E8%AE%B0/%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B.png"
+	width="1306"
+	height="911"
+	srcset="/post/transformer%E7%AC%94%E8%AE%B0/%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B_hu_9c499bf3d653d2d3.png 480w, /post/transformer%E7%AC%94%E8%AE%B0/%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B_hu_de7f526e5105754d.png 1024w"
+	loading="lazy"
+	
+		alt="attention整体流程"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="143"
+		data-flex-basis="344px"
+	
+></p>
+<p>对于一个输入序列$I = (a^1, a^2, ..., a^n) = W(x^1, x^2, ..., x^n)$, 其中$x^i$是输入的词向量，$W$是词向量编码矩阵，$a^i$是输入序列的权重向量。</p>
+<blockquote>
+<p>W的代码表示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># encoder</span>
+</span></span><span class="line"><span class="cl">  <span class="bp">self</span><span class="o">.</span><span class="n">src_word_emb</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_src_vocab</span><span class="p">,</span> <span class="n">d_word_vec</span><span class="p">,</span> <span class="n">padding_idx</span><span class="o">=</span><span class="n">pad_idx</span><span class="p">)</span> 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中n_src_vocab是源语言的词表大小，d_word_vec是词向量的维度，pad_idx是填充标签&lt;pad&gt;的索引。对于decoder来说就是n_trg_vocab和d_word_vec。如果源语言和目标语言的编码相似，那么就可以共享参数。</p>
+</blockquote>
+<p>$I$经过三个对应的转化矩阵，将$a^i$转化为$q^i, k^i, v^i$：
+</p>
+$$
+q^i = W^qa^i\\ k^i = W^ka^i\\ v^i = W^va^i
+$$<p>
+现在我们可以做$q$和$k$的attention，具体来说就是计算点积：
+</p>
+$$
+Scaled\ Dot{-}Product\ Attetion: \alpha_{i,j} = \frac{q^i \cdot k^j}{\sqrt{d_k}}
+$$<p>其中$d_k$是$k$和$q$的维度，他们是相等的。这么做有一个归一化的效果。</p>
+<p>接着我们将所有的$\alpha$进行softmax：</p>
+$$
+\hat{\alpha_{i,j}} = \frac{\exp(\alpha_{i,j})}{\sum_j \exp(\alpha_{i,j})}
+$$<p>紧接着，我们使用$\hat{\alpha}$和$v$对应相乘来得到$b$,作为最终的输出：</p>
+$$
+b^i = \sum_j \hat{\alpha_{i,j}}v^j
+$$<h2 id="代码实现">代码实现
+</h2><p>在代码中，计算注意力和输出$B$是使用单独模块实现的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ScaledDotProductAttention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">attn_dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">temperature</span> <span class="c1"># 这里就是d_k</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">attn_dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">attn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="c1"># 此处为Q·K^T/sqrt(d_k)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">attn</span> <span class="o">=</span> <span class="n">attn</span><span class="o">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1e9</span><span class="p">)</span> <span class="c1"># 如果有，加入超大负数作为掩码</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">attn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">attn</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># softmax操作</span>
+</span></span><span class="line"><span class="cl">        <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="c1"># 和所有的v相乘计算得到b</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">attn</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对QKV的计算在多头自注意力模块实现。</p>
+<h1 id="多头自注意力">多头自注意力
+</h1><p>所谓多头自注意力，实际上就是将原本的$Q$,$K$,$V$分别拆分成$n\_head$个子矩阵，然后进行$n\_head$次注意力计算，最后将所有的结果进行拼接，得到最终的输出。</p>
+<p><img src="/post/transformer%E7%AC%94%E8%AE%B0/%E5%A4%9A%E5%A4%B4%E5%AE%9E%E4%BE%8B.png"
+	width="1215"
+	height="911"
+	srcset="/post/transformer%E7%AC%94%E8%AE%B0/%E5%A4%9A%E5%A4%B4%E5%AE%9E%E4%BE%8B_hu_8bdcec9fd027dbc6.png 480w, /post/transformer%E7%AC%94%E8%AE%B0/%E5%A4%9A%E5%A4%B4%E5%AE%9E%E4%BE%8B_hu_eccabef594d9f503.png 1024w"
+	loading="lazy"
+	
+		alt="多头注意力"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="133"
+		data-flex-basis="320px"
+	
+></p>
+<p>对于一个完整的转化矩阵$W^q$，通过变化我们将它拆分为$W^{q,1}, W^{q,2}, ..., W^{q,n\_head}$,在得到$q^i$之后拆分为对应的$q^{i,1}, q^{i,2}, ..., q^{i,n\_head}$，与对应的$k$和$v$重新完成attention计算得到对应的$b^{i,1}, b^{i,2}, ..., b^{i,n\_head}$，最后将他们concat起来，通过一个矩阵调整维度变为最后的$b^i$</p>
+<p><img src="/post/transformer%E7%AC%94%E8%AE%B0/%E8%B0%83%E6%95%B4%E7%BB%B4%E5%BA%A6.png"
+	width="625"
+	height="309"
+	srcset="/post/transformer%E7%AC%94%E8%AE%B0/%E8%B0%83%E6%95%B4%E7%BB%B4%E5%BA%A6_hu_fb23c7b7f8a6bb95.png 480w, /post/transformer%E7%AC%94%E8%AE%B0/%E8%B0%83%E6%95%B4%E7%BB%B4%E5%BA%A6_hu_cdbd27f576b68933.png 1024w"
+	loading="lazy"
+	
+		alt="调整维度"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="202"
+		data-flex-basis="485px"
+	
+></p>
+<h2 id="代码实现-1">代码实现
+</h2><p>在代码实现里，这部分比较巧妙。
+为了便于计算，代码中只有一个大的矩阵（以计算$Q$为例）$W^q$，他被定义为(d_model, n_head*d_k)。而对于输入的$A$，在代码中定义为(batch_size, seq_len, d_model)，通过矩阵计算之后，会得到一个$Q$矩阵(batch_size, seq_len, n_head*d_k)。这个$Q$矩阵包含了所有头的$Q$向量，这样通过一次计算我们便得到了所有的头的结果。</p>
+<p>实际上，这个大的矩阵$W^q$我们可以看作是许多头的矩阵的concat:
+</p>
+$$W^q = Concat([W^{q,1},W^{q,2},...,W^{q,n\_head}])$$<p>而我们仅通过简单的reshape操作，就可以将每一个头的$q^i$矩阵从$Q$里拆分出来，送入后续的计算注意力环节。对于$K$和$V$向量同理。</p>
+<p>具体代码实现如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MultiHeadAttention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">d_k</span><span class="p">,</span> <span class="n">d_v</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">n_head</span> <span class="o">=</span> <span class="n">n_head</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">d_k</span> <span class="o">=</span> <span class="n">d_k</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">d_v</span> <span class="o">=</span> <span class="n">d_v</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 因为是多头，所以对于W^q,W^k,W^v，需要将维度扩展到n_head倍</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">w_qs</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_head</span> <span class="o">*</span> <span class="n">d_k</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">w_ks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_head</span> <span class="o">*</span> <span class="n">d_k</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">w_vs</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_head</span> <span class="o">*</span> <span class="n">d_v</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_head</span> <span class="o">*</span> <span class="n">d_v</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">ScaledDotProductAttention</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">d_k</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> <span class="c1"># 此处的q,k,v的输入是enc_input, 也就是文章中提到的a,并未真正的q,k,v,此处的qkv大小是(batch_size, seq_len, d_model)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">d_k</span><span class="p">,</span> <span class="n">d_v</span><span class="p">,</span> <span class="n">n_head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_head</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sz_b</span><span class="p">,</span> <span class="n">len_q</span><span class="p">,</span> <span class="n">len_k</span><span class="p">,</span> <span class="n">len_v</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">q</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">k</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">residual</span> <span class="o">=</span> <span class="n">q</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Pass through the pre-attention projection: b x lq x (n*dv)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Separate different heads: b x lq x n x dv</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 核心部分，一次计算得到所有头的QKV,然后分离为多个头</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_qs</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">sz_b</span><span class="p">,</span> <span class="n">len_q</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_ks</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">sz_b</span><span class="p">,</span> <span class="n">len_k</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_vs</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">sz_b</span><span class="p">,</span> <span class="n">len_v</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">d_v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Transpose for attention dot product: b x n x lq x dv</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">v</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">,</span> <span class="n">attn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Transpose to move the head dimension back: b x lq x n x dv</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Combine the last two dimensions to concatenate all the heads together: b x lq x (n*dv)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 因为计算attention需要变一下形状，现在计算完了原样变回来</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">sz_b</span><span class="p">,</span> <span class="n">len_q</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">#q (sz_b,len_q,n_head,N * d_k)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span> <span class="o">+=</span> <span class="n">residual</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">q</span><span class="p">,</span> <span class="n">attn</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>至此，通过多头注意力机制和点积注意力计算，我们已经完成了transformer里核心的注意力模块的实现。</p>
+<h1 id="位置编码">位置编码
+</h1><p>因为是注意力机制，对于同样序列的排列组合，如果没有注意力，模型无法区分。所以需要加上位置编码能够让模型对“我爱你”和“你爱我”进行区分。</p>
+<p>在transformer里，位置编码是认为给定的一个向量$e^i$，这个向量在每一个位置都是唯一且不同的。他会与$a^i$进行<strong>相加</strong>，从而实现位置编码。</p>
+<p>这里的相加不会损失位置信息。可以按照<a class="link" href="https://zhuanlan.zhihu.com/p/340149804"  target="_blank" rel="noopener"
+    >科技猛兽</a>博主里的思路来理解：</p>
+<p>按照我们正常的理解，应该给单词$x^i$在后面concat一个位置编码$p^i$来表示他的位置。这样的话，当我们在计算单词的词向量的时候，就会有：</p>
+$$
+W \cdot x^i_p = [W^I, W^P] \cdot 
+\begin{bmatrix}
+x^i \\
+p^i
+\end{bmatrix} = W^I \cdot x^i + W^P \cdot p^i = a^i + e^i
+$$<p>所以我们的相加操作在宏观上就是对单词进行了一个位置编码的concat。</p>
+<p>在实际设计中，transformer利用了三角函数来计算位置编码，用$PE$表示。</p>
+$$
+PE_{(pos, 2i)} = \sin(pos / 10000^{2i/d_{model}}) \\
+PE_{(pos, 2i+1)} = \cos(pos / 10000^{2i/d_{model}})
+$$<p>这里的这个$i$有点抽象，他的取值范围是$[0, d_{model} / 2)$。个人理解，这个$2i$和$2i+1$是为了区分sin和cos的。即对于偶数的隐藏层都是sin,对于奇数的隐藏层都是cos。我在下面换一个写法可能就比较能看清楚了。$pos$则表示单词的位置，对于特定的位置$pos$，都可以计算出包含全部$i$的一个位置编码。即：</p>
+$$
+PE(pos) = \sum_{i=0}^{d_{model}/2} PE_{(pos, 2i)}+PE_{(pos, 2i+1)}
+$$<p>这个函数有一个很重要的性质就是他的可以线性变化的。即对于一个$PE(pos+k)$，是可以被$PE(pos)$所线性表示的。，这样对于模型来说，它可以学习到相对的位置信息。</p>
+<h2 id="代码实现-2">代码实现
+</h2><p>在transformer的源码中，对于位置编码的计算，是通过先计算sin和cos函数内部的那个$pos / 10000^{2i/d_{model}}$，然后奇数位置取sin，偶数位置取cos。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">PositionalEncoding</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_hid</span><span class="p">,</span> <span class="n">n_position</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Not a parameter</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s1">&#39;pos_table&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_sinusoid_encoding_table</span><span class="p">(</span><span class="n">n_position</span><span class="p">,</span> <span class="n">d_hid</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_get_sinusoid_encoding_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_position</span><span class="p">,</span> <span class="n">d_hid</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">def</span> <span class="nf">get_position_angle_vec</span><span class="p">(</span><span class="n">position</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 对所有隐藏层两两编码，使2i和2i+1相等。</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="p">[</span><span class="n">position</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">hid_j</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">d_hid</span><span class="p">)</span> <span class="k">for</span> <span class="n">hid_j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d_hid</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">sinusoid_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">get_position_angle_vec</span><span class="p">(</span><span class="n">pos_i</span><span class="p">)</span> <span class="k">for</span> <span class="n">pos_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_position</span><span class="p">)])</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 对2i使用sin，对2i+1使用cos</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sinusoid_table</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">sinusoid_table</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sinusoid_table</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">sinusoid_table</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">sinusoid_table</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_table</span><span class="p">[:,</span> <span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="transformer整体拼装">Transformer整体拼装
+</h1><p>我们完成了对于transformer里的核心部分的梳理，接下来就是根据论文结果，对应实现<code>encoder</code>和<code>decoder</code>，将所有模块拼装到一起。</p>
+<h2 id="encoder层">encoder层
+</h2><p>整体<code>encoder</code>层的结构如下：</p>
+<p><img src="/post/transformer%E7%AC%94%E8%AE%B0/encoder.png"
+	width="377"
+	height="500"
+	srcset="/post/transformer%E7%AC%94%E8%AE%B0/encoder_hu_caf4c6d5fdfc249b.png 480w, /post/transformer%E7%AC%94%E8%AE%B0/encoder_hu_20a58e106efe1914.png 1024w"
+	loading="lazy"
+	
+		alt="encoder"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="75"
+		data-flex-basis="180px"
+	
+></p>
+<p>让我们从下往上一点一点开始。</p>
+<h3 id="inputembedding">InputEmbedding
+</h3><p>首先是<code>InputEmbedding</code>，这块使用的是一个<code>nn.Embedding</code>层实现的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">src_word_emb</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_src_vocab</span><span class="p">,</span> <span class="n">d_word_vec</span><span class="p">,</span> <span class="n">padding_idx</span><span class="o">=</span><span class="n">pad_idx</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里的<code>n_src_vocab</code>是源语言的词表大小，<code>d_word_vec</code>是词向量的维度，<code>pad_idx</code>是填充的索引。</p>
+<h3 id="positionalencoding">PositionalEncoding
+</h3><p>然后是我们介绍过的<code>PositionalEncoding</code>层，实现已经在前面介绍过了。</p>
+<h3 id="encoderlayer">EncoderLayer
+</h3><p>接下来是就是多个<code>EncoderLayer</code>层组成的模块。
+每一个<code>EncoderLayer</code>层里都有一个<code>MultiHeadAttention</code>层和一个<code>PositionwiseFeedForward</code>层，并且使用残差和层归一化连接。</p>
+<p><code>MultiHeadAttention</code>层在前面介绍过了，这里不再赘述。</p>
+<p><code>PositionwiseFeedForward</code>层实际上就是一个两层全连接层，并且使用ReLU激活函数。他的实现如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">PositionwiseFeedForward</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_in</span><span class="p">,</span> <span class="n">d_hid</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">w_1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_in</span><span class="p">,</span> <span class="n">d_hid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">w_2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_hid</span><span class="p">,</span> <span class="n">d_in</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_in</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">residual</span> <span class="o">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Linear -&gt; ReLU -&gt; Linear</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_2</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w_1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">+=</span> <span class="n">residual</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="encoder整体回顾">encoder整体回顾
+</h3><p>综上所述，整体的<code>encoder</code>层代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Encoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="p">,</span> <span class="n">n_src_vocab</span><span class="p">,</span> <span class="n">d_word_vec</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">d_k</span><span class="p">,</span> <span class="n">d_v</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">d_model</span><span class="p">,</span> <span class="n">d_inner</span><span class="p">,</span> <span class="n">pad_idx</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n_position</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">src_word_emb</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_src_vocab</span><span class="p">,</span> <span class="n">d_word_vec</span><span class="p">,</span> <span class="n">padding_idx</span><span class="o">=</span><span class="n">pad_idx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">position_env</span> <span class="o">=</span> <span class="n">PositionalEncoding</span><span class="p">(</span><span class="n">d_word_vec</span><span class="p">,</span> <span class="n">n_position</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layer_stack</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">            <span class="n">EncoderLayer</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_inner</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">d_k</span><span class="p">,</span> <span class="n">d_v</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_layers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src_seq</span><span class="p">,</span> <span class="n">src_mask</span><span class="p">,</span> <span class="n">return_attns</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">enc_slf_attn_list</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># encoderLayer前的预处理</span>
+</span></span><span class="line"><span class="cl">        <span class="n">enc_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position_env</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src_word_emb</span><span class="p">(</span><span class="n">src_seq</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">enc_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="n">enc_output</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># encoderLayer</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">enc_layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_stack</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enc_output</span><span class="p">,</span> <span class="n">enc_slf_attn</span> <span class="o">=</span> <span class="n">enc_layer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">enc_output</span><span class="p">,</span> <span class="n">slf_attn_mask</span><span class="o">=</span><span class="n">src_mask</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">enc_slf_attn_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">enc_slf_attn</span><span class="p">]</span> <span class="k">if</span> <span class="n">return_attns</span> <span class="k">else</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">return_attns</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">enc_output</span><span class="p">,</span> <span class="n">enc_slf_attn_list</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">enc_output</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到整体<code>encoder</code>的结构还是非常清晰的。最终获得了所有<code>encoderLayer</code>的输出，并返回，用于输入给<code>decoder</code>。</p>
+<h2 id="decoder层">decoder层
+</h2><p>整个<code>decoder</code>层的结构如下：</p>
+<p><img src="/post/transformer%E7%AC%94%E8%AE%B0/decoder.png"
+	width="318"
+	height="908"
+	srcset="/post/transformer%E7%AC%94%E8%AE%B0/decoder_hu_5594cf372004790d.png 480w, /post/transformer%E7%AC%94%E8%AE%B0/decoder_hu_30b3bbc158ffca71.png 1024w"
+	loading="lazy"
+	
+		alt="decoder"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="35"
+		data-flex-basis="84px"
+	
+></p>
+<p>与<code>encoder</code>类似，<code>decoder</code>的下端输入也是一个embedding向量<code>trg_word_emb</code>加上位置编码。只不过此时的embedding是目标语言的，而encoder的是源语言的。</p>
+<p>我们重点来看一下整体的<code>DecoderLayer</code>类。</p>
+<h3 id="decoderlayer">DecoderLayer
+</h3><p>与<code>EncoderLayer</code>类不同，<code>DecoderLayer</code>面对不同的层，他的输入是不同的。</p>
+<p>在第一层多头掩码注意力层中，输入是<code>trg_word_emb</code>加上位置编码的<code>dec_input</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">dec_output</span><span class="p">,</span> <span class="n">dec_slf_attn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slf_attn</span><span class="p">(</span><span class="n">dec_input</span><span class="p">,</span> <span class="n">dec_input</span><span class="p">,</span> <span class="n">dec_input</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">slf_attn_mask</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>接下来，第二个多头注意力层的<code>K</code>和<code>V</code>是<code>encoder</code>层的最终输出，而<code>Q</code>是刚才得到的<code>dec_output</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">dec_output</span><span class="p">,</span> <span class="n">dec_enc_attn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">enc_attn</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">dec_output</span><span class="p">,</span> <span class="n">enc_output</span><span class="p">,</span> <span class="n">enc_output</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">dec_enc_attn_mask</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这一步其实就是在匹配目标语言和输入语言。</p>
+<p>最后接一个前文提到的全连接网络<code>PositionwiseFeedForward</code>，便完成了一层<code>decoder</code>的全过程。</p>
+<h3 id="decoder整体结构">decoder整体结构
+</h3><p>同理，给出整体的代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="p">,</span> <span class="n">n_trg_vocab</span><span class="p">,</span> <span class="n">d_word_vec</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">d_k</span><span class="p">,</span> <span class="n">d_v</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">d_model</span><span class="p">,</span> <span class="n">d_inner</span><span class="p">,</span> <span class="n">pad_idx</span><span class="p">,</span> <span class="n">n_position</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">scale_emb</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>      
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">trg_word_emb</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_trg_vocab</span><span class="p">,</span> <span class="n">d_word_vec</span><span class="p">,</span> <span class="n">padding_idx</span><span class="o">=</span><span class="n">pad_idx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">position_enc</span> <span class="o">=</span> <span class="n">PositionalEncoding</span><span class="p">(</span><span class="n">d_word_vec</span><span class="p">,</span> <span class="n">n_position</span><span class="o">=</span><span class="n">n_position</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layer_stack</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">            <span class="n">DecoderLayer</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_inner</span><span class="p">,</span> <span class="n">n_head</span><span class="p">,</span> <span class="n">d_k</span><span class="p">,</span> <span class="n">d_v</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_layers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">scale_emb</span> <span class="o">=</span> <span class="n">scale_emb</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">d_model</span> <span class="o">=</span> <span class="n">d_model</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trg_seq</span><span class="p">,</span> <span class="n">trg_mask</span><span class="p">,</span> <span class="n">enc_output</span><span class="p">,</span> <span class="n">enc_mask</span><span class="p">,</span> <span class="n">return_attns</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">def_slf_attn_list</span><span class="p">,</span> <span class="n">dec_enc_attn_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">dec_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trg_word_emb</span><span class="p">(</span><span class="n">trg_seq</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_emb</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">dec_output</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_model</span> <span class="o">**</span> <span class="mf">0.5</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dec_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position_enc</span><span class="p">(</span><span class="n">dec_output</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dec_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="n">dec_output</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">dec_layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_stack</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">dec_output</span><span class="p">,</span> <span class="n">dec_slf_attn</span><span class="p">,</span> <span class="n">dec_enc_attn</span> <span class="o">=</span> <span class="n">dec_layer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">dec_output</span><span class="p">,</span> <span class="n">enc_output</span><span class="p">,</span> <span class="n">slf_attn_mask</span><span class="o">=</span><span class="n">trg_mask</span><span class="p">,</span> <span class="n">dec_enc_attn_mask</span><span class="o">=</span><span class="n">enc_mask</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">def_slf_attn_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">dec_slf_attn</span><span class="p">]</span> <span class="k">if</span> <span class="n">return_attns</span> <span class="k">else</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">            <span class="n">dec_enc_attn_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">dec_enc_attn</span><span class="p">]</span> <span class="k">if</span> <span class="n">return_attns</span> <span class="k">else</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">return_attns</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">dec_output</span><span class="p">,</span> <span class="n">def_slf_attn_list</span><span class="p">,</span> <span class="n">dec_enc_attn_list</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">dec_output</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>整体和<code>encoder</code>非常相似，要注意需要输入<code>enc_output</code>和对应的掩码信息。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/transformer/">Transformer</a>
+        
+            <a href="/tags/llms/">Llms</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 Oct 27, 2025 09:50 &#43;0800
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="AnYiFan117/AnYiFan117.github.io"
+    data-repo-id="R_kgDOQJbQUQ"
+    data-category="General"
+    data-category-id="DIC_kwDOQJbQUc4CxGC8"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="preferred_color_scheme"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('preferred_color_scheme');
+            } else {
+                setGiscusTheme('preferred_color_scheme');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 AnYiFan
+    </section>
+    
+    <section class="powerby">
+        
+            Wow <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

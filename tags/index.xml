@@ -7,7 +7,23 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>AnYiFan</copyright>
-        <lastBuildDate>Mon, 27 Oct 2025 00:58:58 +0800</lastBuildDate><atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 27 Oct 2025 09:50:44 +0800</lastBuildDate><atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Llms</title>
+        <link>https://example.com/tags/llms/</link>
+        <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/tags/llms/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Transformer</title>
+        <link>https://example.com/tags/transformer/</link>
+        <pubDate>Mon, 27 Oct 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/tags/transformer/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Fuck</title>
         <link>https://example.com/tags/fuck/</link>
         <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
