@@ -1043,15 +1043,164 @@ $$&lt;p&gt;这个函数有一个很重要的性质就是他的可以线性变化
 </description>
         </item>
         <item>
-        <title>Hugo&#43;stack配置踩坑</title>
-        <link>https://anyifan117.github.io/post/hugo-stack%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</link>
+        <title>2025 最新Hugo&#43;Stack主题配置踩坑</title>
+        <link>https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</link>
         <pubDate>Sun, 26 Oct 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://anyifan117.github.io/post/hugo-stack%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</guid>
+        <guid>https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</guid>
         <description>&lt;h1 id=&#34;终于配好了&#34;&gt;终于配好了
 &lt;/h1&gt;&lt;p&gt;终于把这个傻逼stack主题配好了，真是傻逼，真是傻逼。&lt;/p&gt;
-&lt;h1 id=&#34;改天了解一下hugo&#34;&gt;改天了解一下hugo
-&lt;/h1&gt;</description>
+&lt;h1 id=&#34;简介&#34;&gt;简介
+&lt;/h1&gt;&lt;p&gt;如果在网络上去搜索某些技术文档或者教程，你大概率会找到各种各样开发者自建的博客。这些博客五花八门，多数有着绚丽的鼠标追踪背景，live2d小人，你可以在里面自定义自己的小世界。&lt;/p&gt;
+&lt;p&gt;笔者近期闲来无事，也就有了想要自己搭建一个博客站的想法。经过简单的了解，最终决定使用 &lt;strong&gt;Hugo&lt;/strong&gt; 来搭建。&lt;/p&gt;
+&lt;p&gt;Hugo是一个开源的静态网站生成器。能够让用户在无代码的环境下快速部署静态网站(当然还是需要有一些命令行和git的基础)。同时Hugo有大量的第三方主题(theme)可供选择，整个社区的十分活跃，教程十分丰富，非常适合作为博客开发的入门框架使用。&lt;/p&gt;
+&lt;p&gt;当然，我是看中了Hugo的Stack主题，我觉得这个主题还挺好看的，符合了我对于博客站的一切幻想。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/stack-demo.png&#34;
+	width=&#34;3420&#34;
+	height=&#34;1896&#34;
+	srcset=&#34;https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/stack-demo_hu_145584a4c50cc507.png 480w, https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/stack-demo_hu_e4c304c0da1929c1.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;stack主体的demo，还是很好看的&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;180&#34;
+		data-flex-basis=&#34;432px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接下来就简单介绍一下，我用Hugo和Stack主题来搭建这个博客站的一些踩坑经历。&lt;/p&gt;
+&lt;p&gt;⚠️&lt;strong&gt;声明： 本人在初期开发过程中参照了bilibili的up主&lt;a class=&#34;link&#34; href=&#34;https://space.bilibili.com/402971365?spm_id_from=333.337.search-card.all.click&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Letere-莱特雷&lt;/a&gt;的教程。在其基础上，本人总结了一些在linux环境下搭建的踩坑经验，供各位参考。本人也是正在学习Hugo的相关配置，如果有可以优化的地方，可以在评论里指出。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;叠甲完毕，让我们开始吧！&lt;/p&gt;
+&lt;h1 id=&#34;安装hugo&#34;&gt;安装Hugo
+&lt;/h1&gt;&lt;p&gt;Hugo整体需要安装&lt;code&gt;Hugo&lt;/code&gt;, &lt;code&gt;Go&lt;/code&gt;和&lt;code&gt;Dart SCSS&lt;/code&gt;，我们一步一步来。&lt;/p&gt;
+&lt;h2 id=&#34;hugo&#34;&gt;Hugo
+&lt;/h2&gt;&lt;p&gt;首先的首先，我们需要安装Hugo，这也是整个配置中最关键的一环。&lt;/p&gt;
+&lt;p&gt;Hugo的版本分为很多种，我们去他的github仓库的&lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio/hugo/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;release部分&lt;/a&gt;就可以看到所有的版本和每一个版本里的所有的类型。&lt;/p&gt;
+&lt;p&gt;彼时时间为2025年11月2日，以当前最新的0.152.2版本为例，在github上可以安装的发布类型如图所示。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/hugo-release.png&#34;
+	width=&#34;1874&#34;
+	height=&#34;1570&#34;
+	srcset=&#34;https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/hugo-release_hu_bc8c2a80b1cc24b0.png 480w, https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/hugo-release_hu_75c113d5dffa9728.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;在github的release页面的发布类型&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;119&#34;
+		data-flex-basis=&#34;286px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;一般来说，我们肯定是下载最新的版本是最好的。&lt;strong&gt;但是！我们使用的Stack主题却对版本有硬性要求！&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;以下安装教程仅针对需要使用Stack主题的读者参考&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;让我们来看一下&lt;a class=&#34;link&#34; href=&#34;https://stack.jimmycai.com/guide/getting-started&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Stack的文档&lt;/a&gt;中给出的安装提示。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/hugo-require.png&#34;
+	width=&#34;1520&#34;
+	height=&#34;1664&#34;
+	srcset=&#34;https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/hugo-require_hu_61bdd7911b40d6c7.png 480w, https://anyifan117.github.io/post/2025-%E6%9C%80%E6%96%B0hugo-stack%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/hugo-require_hu_dec3a6560b9c693f.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;看到问题了吗&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;91&#34;
+		data-flex-basis=&#34;219px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;可以看到，因为Stack主体使用了SCSS和Typescript来开发样式，所以他们需要安装&lt;strong&gt;Hugo extend&lt;/strong&gt;环境。而Hugo的最新版是没有extend版本的！&lt;/p&gt;
+&lt;p&gt;所以不管你是想要使用apt-get安装，还是使用github release安装，还是用官方文档里推荐的snap安装，必须要确保安装的版本和你想使用的theme的要求版本是一致的。&lt;/p&gt;
+&lt;p&gt;当然，如果要使用stack主题的话，用snap安装是会和scss冲突的，我这里就踩坑了。&lt;/p&gt;
+&lt;p&gt;所以推荐大家，使用稍旧一点的，带有extend的Hugo安装。&lt;/p&gt;
+&lt;p&gt;在release界面下载0.152.1的含有extend前缀的版本。根据你自己的操作系统来选择安装。安装过程就不详细说明了，因系统而异。&lt;/p&gt;
+&lt;p&gt;安装完成，运行命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;hugo version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;得到结果&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;hugo v0.152.1-5869cbddd88590563c2b7b400e804ccc7d2cb697+extended linux/amd64 BuildDate=2025-10-22T19:10:44Z VendorInfo=gohugoio
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;带有&lt;code&gt;extend&lt;/code&gt;字样，那么就OK了。&lt;/p&gt;
+&lt;h2 id=&#34;go&#34;&gt;Go
+&lt;/h2&gt;&lt;p&gt;接下来是安装Go，这里没有什么坑，直接安装即可。&lt;/p&gt;
+&lt;h2 id=&#34;dart-scss&#34;&gt;Dart SCSS
+&lt;/h2&gt;&lt;p&gt;安装Dart SCSS也相对简单，按照&lt;a class=&#34;link&#34; href=&#34;https://sass-lang.com/install/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方文档&lt;/a&gt;一步一步来就可以了。&lt;/p&gt;
+&lt;p&gt;这里要注意，在Hugo的文档里，他说了一句话：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;If you install Hugo as a Snap package there is no need to install Dart Sass. The Hugo Snap package includes Dart Sass.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;他说的很有道理，如果你使用snap安装Hugo，就可以省略这一步。&lt;/p&gt;
+&lt;p&gt;但是，如果你想用Stack主题，则不能用snap安装Hugo，因为snap安装的Hugo没有extend版本。&lt;/p&gt;
+&lt;h2 id=&#34;best-practice&#34;&gt;Best practice
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;在github的release上找到extend版本Hugo安装&lt;/li&gt;
+&lt;li&gt;安装Go&lt;/li&gt;
+&lt;li&gt;安装Dart SCSS&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;好的，至此我们的环境搭建完毕了。接下来就是可以搭建博客和配置主题了！&lt;/p&gt;
+&lt;h1 id=&#34;配置stack&#34;&gt;配置Stack
+&lt;/h1&gt;&lt;p&gt;接下来的内容，和莱特雷的教程就基本一致了，我也是参考他的配置来使用的Stack主题。这里放上他的视频，读者们可以进行一些参考。&lt;/p&gt;
+&lt;p&gt;同时关于后期使用github action进行部署，也可以参考&lt;a class=&#34;link&#34; href=&#34;https://letere-gzj.github.io/hugo-stack/p/hugo/custom-blog/#3-github%E9%83%A8%E7%BD%B2&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;他的博客&lt;/a&gt;，写的很详细，笔者基本沿用了他的方法。&lt;/p&gt;
+
+
+
+
+
+
+    
+
+
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe src=&#34;https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1bovfeaEtQ&#34;
+            scrolling=&#34;no&#34;
+            frameborder=&#34;no&#34;
+            framespacing=&#34;0&#34;
+            allowfullscreen=&#34;true&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;笔者的配置和莱特雷不同的点是，我直接使用了Stack文档中推荐的&lt;a class=&#34;link&#34; href=&#34;https://stack.jimmycai.com/guide/getting-started&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;git submodule的方式&lt;/a&gt;进行主题安装。&lt;/p&gt;
+&lt;p&gt;首先，在我们新建的项目在，初始化git仓库，因为我们要进行版本管理和后期在github上使用action进行部署。&lt;/p&gt;
+&lt;p&gt;紧接着就可以运行&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git submodule add https://github.com/CaiJimmy/hugo-theme-stack/ themes/hugo-theme-stack
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;将Stack主体添加到项目根目录的themes目录下。&lt;/p&gt;
+&lt;p&gt;这就不用像视频里一样去下载github的zip压缩包了，更加便利。&lt;/p&gt;
+&lt;p&gt;当然，因为我们使用了git submodule的方式，所以当我们修改了Stack主体的一些内容之后(这是可能的，因为我们可以修改里面的文件自定义样式和功能)，需要fork一份Stack的仓库进行提交，比较麻烦&lt;/p&gt;
+&lt;p&gt;笔者这里直接把这个仓库的.git配置给删除了，让他变成普通目录，力大砖飞，并不推荐。&lt;/p&gt;
+&lt;p&gt;根据笔者的观察和理解，当创建了Hugo的项目之后，Hugo会使用配置文件来管理项目，这个配置文件是可以有三种格式的：&lt;code&gt;toml&lt;/code&gt;,&lt;code&gt;yaml&lt;/code&gt;,&lt;code&gt;json&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;我们使用的0.152.1版本给出的默认配置文件是toml格式的，他的名字叫hugo.toml，就在项目的根目录下。&lt;/p&gt;
+&lt;p&gt;但是Stack主题使用的配置文件叫hugo.yaml。这里就需要你把Stack主题的配置文件复制过来，然后删除原本的toml文件。以后只需要在hugo.yaml文件里进行修改。&lt;/p&gt;
+&lt;h1 id=&#34;尾声&#34;&gt;尾声
+&lt;/h1&gt;&lt;p&gt;至此，整体使用Hugo+Stack的配置踩坑记录就结束了，希望大伙玩得愉快:)&lt;/p&gt;
+</description>
         </item>
         <item>
         <title>归档</title>
